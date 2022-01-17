@@ -1,0 +1,26 @@
+CLient side domain name convert into IP address { BY the use of DNS }
+
+TO make connect with the server there are three points or levels
+-> HTTP.methods (GET, POST, PUT, DELETE)
+-> HTTP.Header (browser-used, host-name, accept-lang, etc.)
+-> HTTP.Body (Used in post and put in MERN )
+
+Statis wesite -> Only contain HTML, CSS, JS (or only FrontEnd)
+Dynamic Website -> Conteins server side rendering(means FrontEnd and BackEnd)
+API Based Website -> only send JSON data(clinet side render Tool)
+
+--Application Programming information(API)--
+
+Node is a runtime environment based on Google V8 Engine
+NodeJS is single thread process
+
+--{ SIngle thread contains event-loop and threads-pool }--
+
+* Event-loop --> It is the process where all the heavy function and callbacks are deals with.
+* threadPool --> heavy functions are executed by these threads
+
+closeCallback --> Callback of server end and IDE closed
+
+--MORGAN response --third party middleware--
+* GET / 200 1.719 ms - 24
+* verbs route statusCode codeRunTime - responceSize
