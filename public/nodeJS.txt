@@ -1,9 +1,9 @@
 CLient side domain name convert into IP address { BY the use of DNS }
 
 TO make connect with the server there are three points or levels
--> HTTP.methods (GET, POST, PUT, DELETE)
--> HTTP.Header (browser-used, host-name, accept-lang, etc.)
--> HTTP.Body (Used in post and put in MERN )
+    -> HTTP.methods (GET, POST, PUT, DELETE)
+    -> HTTP.Header (browser-used, host-name, accept-lang, etc.)
+    -> HTTP.Body (Used in post and put in MERN )
 
 Statis wesite -> Only contain HTML, CSS, JS (or only FrontEnd)
 Dynamic Website -> Conteins server side rendering(means FrontEnd and BackEnd)
@@ -11,16 +11,121 @@ API Based Website -> only send JSON data(clinet side render Tool)
 
 --Application Programming information(API)--
 
-Node is a runtime environment based on Google V8 Engine
-NodeJS is single thread process
+-> Node is a runtime environment based on Google V8 Engine
+-> NodeJS is single thread process
 
---{ SIngle thread contains event-loop and threads-pool }--
+--{ Single thread contains event-loop and threads-pool }--
 
 * Event-loop --> It is the process where all the heavy function and callbacks are deals with.
 * threadPool --> heavy functions are executed by these threads
 
-closeCallback --> Callback of server end and IDE closed
+closeCallback --> Callback from server end, when IDE closed
 
 --MORGAN response --third party middleware--
-* GET / 200 1.719 ms - 24
-* verbs route statusCode codeRunTime - responceSize
+    * GET / 200 1.719 ms - 24
+    * verbs route statusCode codeRunTime - responceSize
+
+** Aggregation pipeline methods
+    -> match
+    -> group // _id is used to specify groupBy field
+    -> unwind // it will destruct the array into single unit each
+    -> month          
+    -> push // name: {$push: '$firstName'} push the firstName into name array
+    -> addFields // used to add a field in output
+
+    -- functions
+    -> sum
+    -> min, max, avg
+    -> lte, lt, gt, gte
+
+
+**  'select' in schema used to hide detail of the particular field
+
+
+** In mongoose schema we have object and option.
+    -> object means those attribute on which we can perform query from server side
+    -> option means it is a generated attribute from the DB attribute, but not present in DB data
+
+    new mongoose.Schema({
+        // objects
+    },{
+        // option or virtual attribute is present in output or not { virtuals: true || false }
+    });
+
+    add virtual attribute,
+    schemaName.virtual('new_Attribute_Name').get(Function{
+        return queryOnData_Of_DB
+    })
+    // here get is used to receive the data of attribute which present in DB {acts as a getter function}
+
+
+
+** Middleware in mongoose
+    -> Document Middleware
+        It is used before and after of mongoose document work
+        Ex:- pre, post command on schema 
+
+        schemaName.pre("operation_of_mongoose_onDoc", function(next){
+            //operation before the 'operation_of_mongoose_onDoc'
+            
+            next(); // because it is a middleware
+        })
+
+        Ex:- "operation_of_mongoose" is may be .save() or .create()
+
+    -> Query Middleware
+        it is similar as Document middleware, but here operation_of_mongoose_onDoc is replaced by mongoose_query_operation
+
+        schemaName.pre("mongoose_query_operation", function(next){
+            //operation before the 'mongoose_query_operation'
+            
+            next(); // because it is a middleware
+        })
+
+        Ex:- "operation_of_mongoose" is may be .find(), .findOne, .delete(), .remove(), .update() etc...
+
+        RegEx for all find operation -- /^find/
+            // a string is started from find 
+
+    -> Aggregation Middleware
+        it is done before and after the aggregation function
+
+        it is similar as Document middleware, but here operation_of_mongoose_onDoc is replaced by mongoose_query_operation
+
+        schemaName.pre("aggregate", function(next){
+            //operation before the 'aggregate'
+
+            console.log( this.pipeline() );
+                // here this is aggregation pipeline
+            
+            next(); // because it is a middleware
+        })
+
+
+        ** this.pipeline().unshift in array is used to add the data in front of the array **
+        ** this.pipeline().shift in array is used to add the data in back of the array **
+
+** Express works on "Fat Model and Thin Controller" ** 
+
+** Build-in-dataValidator -- require, maxLength, minLength, min, max, enum etc...
+
+- enum tells only given values are allowed
+    Ex:- enum: ["easy", "hard", "medium"] // only valid for Strings
+
+
+** Custom Validator
+    In schema pass 'validate'
+
+    const userSchema = new mongoose.Schema({
+        firstName:{
+            type: String,
+            required: [true, "user must have a firstname"],
+            validate: {
+                validator: function(){
+                    this;
+                    // In validator, this is used only when DOC is created, not for updated
+                },
+                message: "error message"
+            }
+        }
+    });

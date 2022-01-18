@@ -30,3 +30,34 @@ exports.getDetails =async (req, res)=>{
         })
     }
 }
+
+exports.aggreation= async (req, res)=>{
+    try{
+        const year = parseInt(req.params.id);
+
+        const aggre =await User.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(`${year}-01-16`),
+                        $lte: new Date(`${year}-01-18`),
+                    }
+                }          
+            },
+            {
+                $group:{
+                    _id: '$age',
+                    name: {$push: '$firstName'}
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            message: {aggre}
+        })
+    }catch(err){
+        res.status(400).json({
+            "ERROR": err.message
+        })
+    }
+}

@@ -16,6 +16,12 @@ const userSchema = new mongoose.Schema({
     age1: {
         type: Number
     },
+    year: {
+        type: Date
+    },
+    array:[
+        Number
+    ],
     email:{
         type: String,
         required: [true, "user have an email"],
@@ -30,9 +36,19 @@ const userSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        select: false
     }
+},{
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
 });
+
+
+// adding virtuals (optional attribute) in query output
+userSchema.virtual("FullName").get(function(){
+    return this.firstName + this.lastName
+})
 
 const user = new mongoose.model("Users", userSchema);
 

@@ -32,6 +32,8 @@ router.route("/")
     
 })
 
+router.route("/getDates/:id")
+.get(detail.aggreation)
 
 // routes for params
 router.route("/:id")
