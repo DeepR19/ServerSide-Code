@@ -11,7 +11,9 @@ const userSchema = new mongoose.Schema({
         trim: true
     },
     age: {
-        type: Number
+        type: Number,
+        min: 10,
+        max: 60
     },
     age1: {
         type: Number

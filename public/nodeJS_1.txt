@@ -147,6 +147,13 @@ closeCallback --> Callback from server end, when IDE closed
         > Passing a number where an object is expected
         > Using await without async
     
+** Operational Errors Type
+    -> CastError // when user input is similar, but not valid data
+    -> DuplicateError {MongoError} // when user enter the similar value present in DB, which is unique
+    -> ValidationError // this error occurs due to validation
+
+
+
 { '100': 'Continue',
   '101': 'Switching Protocols',
   '102': 'Processing',

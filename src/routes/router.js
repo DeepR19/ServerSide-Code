@@ -32,7 +32,7 @@ router.route("/getDates/:id")
 
 
 router.route("/:id")
-.get(async (req, res, next)=>{
+.get(asyncErrorCatch(async (req, res, next)=>{
     const user= await User.findById(req.params.id)
 
     if(!user){
@@ -44,7 +44,7 @@ router.route("/:id")
         status: "success",
         user: user
     })
-})
+}))
 .patch(asyncErrorCatch(async (req, res, next)=>{ 
         const user = await User.findByIdAndUpdate(req.params.id, req.body, {
             new: true,

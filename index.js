@@ -1,6 +1,12 @@
 const morgan = require('morgan');
 const express = require('express');
 
+// uncaught exception
+process.on("uncaughtException",err=>{
+    console.log(err.name, err.message);
+    process.exit(1);
+})
+
 const app = express();
 
 const router = require("./src/routes/router");
