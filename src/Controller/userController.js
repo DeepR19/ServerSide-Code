@@ -1,6 +1,8 @@
 const User = require("../models/userSchema");
 const ApiFeatures = require("../utils/apiFeatures");
 
+const asyncErrorCatch = require("../utils/catchAsyncErrors");
+
 exports.top5user = (req, res, next)=>{
     req.query.sort = "age,-age1";
     req.query.fields = "firstName,lastName,email";
@@ -9,8 +11,7 @@ exports.top5user = (req, res, next)=>{
     next();
 }
 
-exports.getDetails =async (req, res)=>{
-    try{
+exports.getDetails =asyncErrorCatch(async (req, res)=>{
 
         const feature = new ApiFeatures(User.find(), req.query)
         .filter()
@@ -24,15 +25,10 @@ exports.getDetails =async (req, res)=>{
             users,
             query: req.query
         })
-    }catch(err){
-        res.status(400).json({
-            "ERROR": err.message
-        })
     }
-}
+    )
 
-exports.aggreation= async (req, res)=>{
-    try{
+exports.aggreation= asyncErrorCatch(async (req, res)=>{
         const year = parseInt(req.params.id);
 
         const aggre =await User.aggregate([
@@ -55,9 +51,4 @@ exports.aggreation= async (req, res)=>{
         res.status(200).json({
             message: {aggre}
         })
-    }catch(err){
-        res.status(400).json({
-            "ERROR": err.message
-        })
-    }
-}
+   })
