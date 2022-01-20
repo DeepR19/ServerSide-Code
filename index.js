@@ -10,6 +10,8 @@ process.on("uncaughtException",err=>{
 const app = express();
 
 const router = require("./src/routes/router");
+const customerRouter =require("./src/routes/customerRouter");
+
 const ErrorHandler = require('./src/utils/errorHandler');
 
 if(process.env.NODE_ENV === "development"){
@@ -19,7 +21,8 @@ if(process.env.NODE_ENV === "development"){
 app.use(express.json());
 app.use(express.static(__dirname+'/public'))
 
-app.use("/",router);
+app.use("/user",router);
+app.use('/',customerRouter)
 
 require("./src/utils/errorHandler");
 app.all('*',(req, res, next)=>{

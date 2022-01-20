@@ -6,15 +6,17 @@
   "scripts": {
     "start": "node server",
     "start:prod": "NODE_ENV=production node server",
-    "debug" : "ndb server.js"
+    "debug": "ndb server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^11.0.0",
     "express": "^4.17.2",
     "mongoose": "^5.11.15",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^8.6.0",
