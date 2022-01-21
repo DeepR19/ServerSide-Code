@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../Controller/authController");
 const ErrorHandler = require("../utils/errorHandler");
 const detail= require("../Controller/userController");
 const router = express.Router();
@@ -15,7 +16,9 @@ router.route("/top-5-user")
 
 
 router.route("/")
-.get(detail.getDetails)
+.get(auth.protect,
+     auth.restrictedTo("admin"),
+    detail.getDetails)
 .post( asyncErrorCatch( async (req, res)=>{
     // .create save data in the DB
     const newUser = await User.create(req.body)

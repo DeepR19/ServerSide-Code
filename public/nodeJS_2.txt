@@ -1,2 +1,5 @@
 ** Authentication and Authorization
-    
+
+** JSON_web_token
+    jwt.sign() // generate token
+    jwt.verify() // verify token
