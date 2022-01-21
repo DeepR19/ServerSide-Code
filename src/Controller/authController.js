@@ -45,6 +45,15 @@ exports.login =catchErr( async (req, res, next)=>{
     }
 
     const token = TokenGenerator(customer._id);
+    
+    // hide password in login output
+    customer.password = undefined;
+    
+    res.cookie("jwt", token, {
+        expires: new Date(Date.now() + 12 *60 * 1000),
+        // secure: true, -- for production
+        httpOnly: true
+    })
 
     res.status(200).json({
         status: 'success',
@@ -151,25 +160,6 @@ exports.resetPassword =catchErr(async (req, res, next)=>{
     })
 });
 
-exports.updatePassword = (req, res, next)=>{
-    const user = await Customer.find({email: req.body.email});
-
-    if(!user){
-        return
-    }
-    user.password === req.body.passwordCurrent;
-
-     await user.save();
-
-     const token = Token(user._id);
-
-     res.status(200).json({
-         status: 'success',
-         user,
-         token
-     })
-
-}
 
 exports.getCustomers =catchErr(async (req, res, next)=>{
     const customer= await Customer.find();
