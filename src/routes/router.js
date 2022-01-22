@@ -4,6 +4,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const detail= require("../Controller/userController");
 const router = express.Router();
 const User = require("../models/userSchema");
+const Customer = require("../models/customerSchema");
 
 const asyncErrorCatch = require("../utils/catchAsyncErrors");
 
@@ -36,8 +37,8 @@ router.route("/getDates/:id")
 
 router.route("/:id")
 .get(asyncErrorCatch(async (req, res, next)=>{
-    const user= await User.findById(req.params.id)
-
+    const user= await User.findById(req.params.id);
+    
     if(!user){
         return next(new ErrorHandler("This user not found",404))
     }

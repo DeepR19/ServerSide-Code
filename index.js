@@ -20,6 +20,7 @@ app.use(helmet())
 
 const router = require("./src/routes/router");
 const customerRouter =require("./src/routes/customerRouter");
+const reviewRouter =require("./src/routes/reviewRouter");
 
 const ErrorHandler = require('./src/utils/errorHandler');
 
@@ -50,6 +51,7 @@ app.use(xssClean());
 app.use(express.static(__dirname+'/public'))
 
 app.use("/user",router);
+app.use('/review',reviewRouter)
 app.use('/',customerRouter)
 
 require("./src/utils/errorHandler");

@@ -42,8 +42,16 @@ const customerSchema = mongoose.Schema({
     passwordResetExpires: Date,
 
     passwordChangedAt: Date
+},{
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
 });
 
+customerSchema.virtual('reviews',{
+    ref: "Review",
+    foreignField: "customerDetail",
+    localField: "_id"
+})
 
 customerSchema.pre('save', function(next){
     if(!this.isModified('password') || this.isNew) return next();

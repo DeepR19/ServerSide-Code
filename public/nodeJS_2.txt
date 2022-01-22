@@ -10,3 +10,16 @@
     -> body-parser
     -> bcryptjs
     -> hpp // only for string 
+
+** Data modelling(how data is stored)
+    -> relation b/w Data
+        -- one to one
+        -- one to many {1:few, 1:many, 1:ton}   
+        -- many to many
+    -> Referencing and embedding
+        -- reference means normalized
+        -- embedding means denormalize
+    -> Types of Referencing
+        -- child Referencing
+        -- parent Referencing
+        -- two-way Referencing

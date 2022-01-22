@@ -75,7 +75,8 @@ exports.protect = catchErr(async(req, res, next)=>{
     }
     
     // it will verify and send data to the user
-    await promisify(jwt.verify)(token, process.env.JWT_VERIFY_KEY)
+    const user = await promisify(jwt.verify)(token, process.env.JWT_VERIFY_KEY)
+    req.userId = user.id;
     next();
 });
 
@@ -172,7 +173,7 @@ exports.getCustomers =catchErr(async (req, res, next)=>{
 });
 
 exports.getIdCustomer = catchErr(async (req, res, next) =>{
-    const customer = await Customer.findById(req.params.id);
+    const customer = await Customer.findById(req.params.id).populate('reviews');
     if(!customer){
         return next(new ErrorHandler("This user not found",404))
     }
