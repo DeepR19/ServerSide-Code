@@ -1,10 +1,14 @@
+const Customer = require("../models/customerSchema");
+
 const crypto = require('crypto');
 const {promisify} = require("util");
-const Customer = require("../models/customerSchema");
 const jwt = require('jsonwebtoken');
+
 const ErrorHandler = require('../utils/errorHandler');
 const catchErr = require("../utils/catchAsyncErrors");
 const sendEmail= require("../utils/email");
+
+const factory = require("./factory")
 
 const TokenGenerator = (id)=>{
     const jet = jwt.sign(
@@ -15,21 +19,21 @@ const TokenGenerator = (id)=>{
     return jet;
 }
 
-exports.signup = catchErr(async (req, res, next)=>{
-    const cust = await Customer.create({
-        name: req.body.name,
-        role: req.body.role,
-        email: req.body.email,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword
-    });
+exports.me = (req, res, next)=>{
+    req.params.id = req.userId;
+    next();
+}
 
+exports.signup = factory.createOne(Customer);
 
-    res.status(201).json({
-        status: "success",
-        detail: cust,
-    })
-});
+exports.getCustomers =factory.getAll(Customer);
+
+exports.getIdCustomer = factory.getOne(Customer, {path: 'reviews'})
+
+exports.updateCustomer = factory.updateOne(Customer);
+
+exports.deleteCustomer = factory.deleteOne(Customer);
+
 
 exports.login =catchErr( async (req, res, next)=>{
     const {email, password} = req.body;
@@ -158,54 +162,6 @@ exports.resetPassword =catchErr(async (req, res, next)=>{
     res.status(200).json({
         status: 'success',
         token
-    })
-});
-
-
-exports.getCustomers =catchErr(async (req, res, next)=>{
-    const customer= await Customer.find();
-
-    res.status(200).json({
-        status: 'success',
-        customers: customer.length,
-        detail: customer
-    })
-});
-
-exports.getIdCustomer = catchErr(async (req, res, next) =>{
-    const customer = await Customer.findById(req.params.id).populate('reviews');
-    if(!customer){
-        return next(new ErrorHandler("This user not found",404))
-    }
-    res.status(200).json({
-        status: 'success',
-        detail: customer
-    })
-});
-
-exports.updateCustomer = catchErr( async (req, res, next)=>{
-    const cust = await Customer.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidator: true
-    })
-    if(!cust){
-        return next(new ErrorHandler("This user not found",404))
-    }
-    res.status(200).json({
-        status: 'success',
-        detail: cust
-    })
-
-});
-
-exports.deleteCustomer = catchErr(async(req, res, next)=>{
-    const customer =await Customer.findByIdAndDelete(req.params.id);
-    if(!customer){
-        return next(new ErrorHandler("This user not found",404))
-    }
-    res.status(200).json({
-        id: req.params.id,
-        status: "successful Done!!"
     })
 });
 

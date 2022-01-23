@@ -3,7 +3,19 @@ const controller = require("../Controller/authController");
 const Customer = require("../models/customerSchema");
 const customerRouter = express.Router();
 
+const reviewRouter = require('../routes/reviewRouter');
+const factory = require('../Controller/factory');
+
 customerRouter.use(express.json());
+
+// nested routes-- use review router in customerRouter
+customerRouter.use('/:id/review', reviewRouter);
+
+customerRouter.get('/me', 
+    controller.protect,
+    controller.me,
+    factory.getOne(Customer)
+)
 
 customerRouter.route('/signup')
 .post(controller.signup);
@@ -37,6 +49,17 @@ customerRouter.route('/:id')
 })
 .patch(controller.updateCustomer)
 .delete(controller.deleteCustomer)
+
+// nested route
+// customerRouter.route('/:id/review')
+// .post(
+//     controller.protect,
+//     controller.restrictedTo('user'),
+//     reviewController.sendReview
+// )
+
+
+
 
 
 

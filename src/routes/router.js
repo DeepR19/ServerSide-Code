@@ -1,25 +1,28 @@
 const express = require("express");
-const auth = require("../Controller/authController");
-const ErrorHandler = require("../utils/errorHandler");
-const detail= require("../Controller/userController");
 const router = express.Router();
-const User = require("../models/userSchema");
-const Customer = require("../models/customerSchema");
 
+const User = require("../models/userSchema");
+
+const auth = require("../Controller/authController");
+const userController= require("../Controller/userController");
+
+const ErrorHandler = require("../utils/errorHandler");
 const asyncErrorCatch = require("../utils/catchAsyncErrors");
 
 router.use(express.json());
 
 // alaising effect
 router.route("/top-5-user")
-.get(detail.top5user, detail.getDetails)
+.get(userController.top5user, userController.getDetails)
 
 
+router.route("/getDates/:id")
+.get(userController.aggreation)
 
 router.route("/")
 .get(auth.protect,
      auth.restrictedTo("admin"),
-    detail.getDetails)
+    userController.getDetails)
 .post( asyncErrorCatch( async (req, res)=>{
     // .create save data in the DB
     const newUser = await User.create(req.body)
@@ -28,11 +31,6 @@ router.route("/")
         message: newUser
     })
 }))
-
-
-router.route("/getDates/:id")
-.get(detail.aggreation)
-
 
 
 router.route("/:id")
@@ -49,30 +47,8 @@ router.route("/:id")
         user: user
     })
 }))
-.patch(asyncErrorCatch(async (req, res, next)=>{ 
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
-        if(!user){
-            return next(new ErrorHandler("This user not found",404))
-        }
-        res.status(200).json({
-            id: req.params.id,
-            status: user
-        })
-    
-}))
-.delete(asyncErrorCatch( async (req, res,next)=>{
-    const user =await User.findByIdAndDelete(req.params.id);
-    if(!user){
-        return next(new ErrorHandler("This user not found",404))
-    }
-    res.status(200).json({
-        id: req.params.id,
-        status: null
-    })
-}))
+.patch(userController.updateUser)
+.delete(userController.deleteUser)
 
 
 module.exports = router;
