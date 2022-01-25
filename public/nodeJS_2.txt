@@ -23,3 +23,25 @@
         -- child Referencing
         -- parent Referencing
         -- two-way Referencing
+
+
+** template engine -- pug
+
+    -- buffer code -- some assignment code
+        h3= tour.toUpperCase() 
+        h4= user
+        --> code is shown in output screen with some JS
+
+    -- unbuffer code -- some calculation
+         - const x=1;
+        h2= 3*x
+        --> this code is not shown in output screen
+
+    -- interpolation -- as a template string
+         title Udemy #{tour}
+         --> #{} is similar as `${}`
+
+    -- block -- use to prevent redundant code b/w files
+        method -- block <block_name>
+                    <data>
+        In this local variable is also work for the files

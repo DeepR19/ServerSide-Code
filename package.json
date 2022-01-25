@@ -4,7 +4,7 @@
   "description": "Start learning from Udemy",
   "main": "index.js",
   "scripts": {
-    "start": "node server",
+    "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production node server",
     "debug": "ndb server.js"
   },
@@ -21,6 +21,8 @@
     "mongoose": "^5.11.15",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "pug": "^3.0.2",
     "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
   },

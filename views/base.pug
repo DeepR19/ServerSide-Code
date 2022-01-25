@@ -1,0 +1,18 @@
+doctype html
+
+html 
+    head 
+        block head
+        title Udemy | #{title}
+        link(rel="stylesheet" href="css/index.css")
+        link(rel="shortcut icon" href="images/favicon.ico" type="image/x-icon")
+
+    body 
+        include _header
+        
+        block content
+            h1 blockContent
+
+        h1 The Udemy Course of ExpressJS 
+
+        include _footer

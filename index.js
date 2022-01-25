@@ -1,9 +1,18 @@
 const morgan = require('morgan');
+const path = require('path');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require("xss-clean");
+
+const app = express();
+
+app.set('view engine', "pug");
+app.set('views', path.join(__dirname,'views'));
+
+app.use(express.static(path.join(__dirname,'public') ) )
+
 
 // uncaught exception
 process.on("uncaughtException",err=>{
@@ -13,12 +22,12 @@ process.on("uncaughtException",err=>{
     process.exit(1);
 })
 
-const app = express();
 
 // security http headers    
 app.use(helmet())
 
 const router = require("./src/routes/router");
+const viewRouter = require("./src/routes/viewRouter");
 const customerRouter =require("./src/routes/customerRouter");
 const reviewRouter =require("./src/routes/reviewRouter");
 
@@ -48,11 +57,12 @@ app.use(mongoSanitize());
 // malicious files
 app.use(xssClean());
 
-app.use(express.static(__dirname+'/public'))
 
 app.use("/user",router);
 app.use('/review',reviewRouter)
-app.use('/',customerRouter)
+app.use('/customer',customerRouter)
+
+app.use('/', viewRouter)
 
 require("./src/utils/errorHandler");
 app.all('*',(req, res, next)=>{

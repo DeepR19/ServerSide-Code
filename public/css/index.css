@@ -1,0 +1,32 @@
+h1{
+    color: red;
+}
+p{
+    color: violet;
+}
+
+header,
+footer{
+    height: 100px;
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+}
+.headerImg{
+    width: 60px;
+    height: 60px;
+}
+footer{
+    position: absolute;
+    bottom: 20px;
+}
+
+.overview{
+    height: 300px;
+    width: 200px;
+    background-color: aliceblue;
+    border: 2px solid #fff;
+}
