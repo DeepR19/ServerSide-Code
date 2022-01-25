@@ -14,6 +14,7 @@ reviewRouter.route('/')
 )
 
 reviewRouter.route('/:id')
+.get(controller.getUserReview)
 .patch(controller.updateReview)
 .delete(controller.deleteReview)
 

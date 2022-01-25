@@ -8,7 +8,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const catchErr = require("../utils/catchAsyncErrors");
 const sendEmail= require("../utils/email");
 
-const factory = require("./factory")
+const factory = require("./factory");
 
 const TokenGenerator = (id)=>{
     const jet = jwt.sign(
@@ -18,6 +18,63 @@ const TokenGenerator = (id)=>{
     );
     return jet;
 }
+    
+
+// exports.tourWithin = (req, res, next) => {
+//     // latlng === center
+//     // distance === radius
+//     const {distance, latlng, unit} = req.params;
+
+//     const radius = unit === 'kms' ? distance / 6378.1: distance/ 3963.2;
+
+//     const [lat, lng] = latlng.split(',');
+
+//     if(!lat || !lng) {
+//         next(new ErrorHandler('Please provide latitute and langitude in the format like lat, lng.',400));
+//     };
+//     const customer= await Customer.find({
+//         startLocation: {
+//             $geoWithin: {
+//                 $centerSphere: [
+//                     [lan, lat], // center of sphere
+//                     radius // radius of sphere
+//                 ]
+//             }
+//         }
+//     });
+//     res.status(200).json({
+//         status: 'success'
+//     })
+// }
+
+// exports.getDistance = (req, res, next)=>{
+    
+//     const {latlng, unit} = req.params;
+
+//     const [lat, lng] = latlng.split(',');
+
+//     if(!lat || !lng) {
+//         next(new ErrorHandler('Please provide latitute and langitude in the format like lat, lng.',400));
+//     };
+    
+//     const distance = await Customer.aggregate([
+//         {
+//             $geoNear: {
+//                 near: {
+//                     type: 'Point',
+//                     coordinate: [lng * 1 , lat * 1]
+//                 },
+//                 distanceField: 'distance'
+//             }
+//         }
+//     ])
+
+//     res.status(200).json({
+//         status: 'success'
+//     })
+// }
+
+
 
 exports.me = (req, res, next)=>{
     req.params.id = req.userId;

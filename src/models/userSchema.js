@@ -80,6 +80,12 @@ const userSchema = new mongoose.Schema({
 });
 
 
+//  --> those field query alot mark as index
+//  -- it is very useful to find data very fast
+// --> define indexes in the scheme <--
+// userSchema.index({ })
+
+
 // adding virtuals (optional attribute) in query output
 userSchema.virtual("FullName").get(function(){
     return this.firstName + this.lastName

@@ -8,6 +8,18 @@ const factory = require('../Controller/factory');
 
 customerRouter.use(express.json());
 
+
+// customerRouter.route('/tour-within/:distance/center/:latlng/unit/:unit')
+// .get(controller.tourWithin)
+
+// customerRouter.route('distance/:latlng/unit/:unit')
+// .get(controller.getDistance)
+
+
+
+
+
+
 // nested routes-- use review router in customerRouter
 customerRouter.use('/:id/review', reviewRouter);
 
