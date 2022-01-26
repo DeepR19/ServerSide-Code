@@ -45,3 +45,9 @@
         method -- block <block_name>
                     <data>
         In this local variable is also work for the files
+
+-- upload.single('photo') // for single
+-- upload.array('__fieldName', <Number>) for multiple image
+-- upload.field({   // for mixed images processing
+        // data
+    })

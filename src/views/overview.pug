@@ -1,0 +1,16 @@
+extends base
+
+//- this block will append data in the head block not write it
+block append head
+    script(src='https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js')
+    link(href='https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css' rel='stylesheet' )
+
+//- <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.8.1/mapbox-gl.css">
+//- <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.8.1/mapbox-gl.js"></script>
+
+//- this block will rewrite the code of the block in the parent
+block content 
+    h1 overView
+    #map
+    //- each user in customer
+    //-     #map(data-locations=`${JSON.stringify(user.location)}`)

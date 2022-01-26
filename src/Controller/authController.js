@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 
 const ErrorHandler = require('../utils/errorHandler');
 const catchErr = require("../utils/catchAsyncErrors");
-const sendEmail= require("../utils/email");
 
 const factory = require("./factory");
+const Email = require("../utils/email");
 
 const TokenGenerator = (id)=>{
     const jet = jwt.sign(
@@ -19,6 +19,9 @@ const TokenGenerator = (id)=>{
     return jet;
 }
     
+
+
+
 
 // exports.tourWithin = (req, res, next) => {
 //     // latlng === center
@@ -171,17 +174,12 @@ exports.forgotPassword =catchErr(async (req, res, next)=>{
     await customer.save({validateBeforeSave: false});
 
     // send token to user 
-    const resetURL = `${req.protocol}://${req.get('host')}/reset/${resetToken}`;
-
-    const message = `Forgot your password? Submit a Patch request with your new password to ${resetURL}\n If you don't forgot your password , please ignore this email`;
+    
     try {
-        
-        await sendEmail({
-            email: customer.email,
-            subject: "Forgot password",
-            message
-        })
-        
+        const resetURL = `${req.protocol}://${req.get('host')}/reset/${resetToken}`;
+
+        await new Email(customer, resetURL).sendPassResetMail();
+
         res.status(200).json({
             status: "success",
             detail: "DONE!!"
@@ -198,7 +196,7 @@ exports.forgotPassword =catchErr(async (req, res, next)=>{
 
 });
 
-exports.resetPassword =catchErr(async (req, res, next)=>{
+exports.resetPassword = catchErr(async (req, res, next)=>{
     // get user based on the token
     const hashToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 

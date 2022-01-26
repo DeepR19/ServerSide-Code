@@ -49,33 +49,33 @@ const customerSchema = mongoose.Schema({
         select: true,
         enum: ["user", "admin"]
     },
-    startLocation: {
-        type: {
-            type: String,
-            default: 'Point',
-            enum : ['Point']
-        },
-        coordinates: [Number],
-        address: String,
-        description: String,
-        day: Number
+    // startLocation: {
+    //     type: {
+    //         type: String,
+    //         // default: 'Point',
+    //         enum : ['Point']
+    //     },
+    //     coordinates: [Number],
+    //     address: String,
+    //     description: String,
+    //     day: Number
         
-    },
-    // "coordinates": [28.656464, 77.242696], // red dort 
-    // "coordinates": [28.406655, 77.289626], // sgm
-    location: [
-        {
-            type: {
-                type: String,
-                default: 'Point',
-                enum : ['Point']
-            },
-            coordinates: [Number],
-            address: String,
-            description: String,
-            day: Number
-        }
-    ],
+    // },
+    // // "coordinates": [28.656464, 77.242696], // red dort 
+    // // "coordinates": [28.406655, 77.289626], // sgm
+    // location: [
+    //     {
+    //         type: {
+    //             type: String,
+    //             // default: 'Point',
+    //             enum : ['Point']
+    //         },
+    //         coordinates: [Number],
+    //         address: String,
+    //         description: String,
+    //         day: Number
+    //     }
+    // ],
 
 
     passwordResetToken: String,

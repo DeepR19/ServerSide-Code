@@ -1,12 +1,19 @@
 const express = require("express");
+const multer = require('multer');
 const controller = require("../Controller/authController");
 const Customer = require("../models/customerSchema");
-const customerRouter = express.Router();
-
 const reviewRouter = require('../routes/reviewRouter');
 const factory = require('../Controller/factory');
 
+const upload = multer({
+    fileFilter: factory.multerFilter
+});
+
+const customerRouter = express.Router();
+
+
 customerRouter.use(express.json());
+
 
 
 // customerRouter.route('/tour-within/:distance/center/:latlng/unit/:unit')
@@ -59,7 +66,10 @@ customerRouter.route('/:id')
         message: "this operation in not allowed"
     })
 })
-.patch(controller.updateCustomer)
+.patch(
+    upload.single('photo'),
+    factory.resizeImg,
+    controller.updateCustomer)
 .delete(controller.deleteCustomer)
 
 // nested route
