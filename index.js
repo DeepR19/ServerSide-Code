@@ -57,7 +57,6 @@ app.use(mongoSanitize());
 // malicious files
 app.use(xssClean());
 
-
 app.use("/user",router);
 app.use('/review',reviewRouter)
 app.use('/customer',customerRouter)
